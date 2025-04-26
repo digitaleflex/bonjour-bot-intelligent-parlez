@@ -1,7 +1,7 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import ChatMessage from './ChatMessage';
 import ChatInput from './ChatInput';
+import { generateResponse } from '../utils/chatUtils';
 
 interface Message {
   text: string;
@@ -25,17 +25,10 @@ const Chatbot = () => {
 
   const simulateResponse = async (userMessage: string) => {
     setIsLoading(true);
-    // Simuler un délai de réponse
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    // Simuler un délai de réponse naturel
+    await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 500));
     
-    let response = "Je comprends votre message. Comment puis-je vous aider davantage ?";
-    
-    if (userMessage.toLowerCase().includes('bonjour')) {
-      response = "Bonjour ! Comment allez-vous ?";
-    } else if (userMessage.toLowerCase().includes('merci')) {
-      response = "Je vous en prie, c'est un plaisir de vous aider !";
-    }
-    
+    const response = generateResponse(userMessage);
     setMessages(prev => [...prev, { text: response, isBot: true }]);
     setIsLoading(false);
   };
